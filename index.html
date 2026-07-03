@@ -119,6 +119,7 @@
             cursor: pointer;
             margin-top: 25px;
             transition: background 0.2s;
+            line-height: 1.5; /* 改行時の行間をきれいに保つ */
         }
         .submit-btn:hover {
             background-color: #2b6cb0;
@@ -180,40 +181,40 @@
 
         <div class="vote-group">
             <h3>第1位（5ポイント） *必須</h3>
-            <input type="text" id="rank1" name="entry.1048729633" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." required autocomplete="off" style="background-color: #fff;">
+            <input type="text" id="rank1" name="entry.750193521" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." required autocomplete="off" style="background-color: #fff;">
             <div class="custom-select-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第2位（4ポイント）</h3>
-            <input type="text" id="rank2" name="entry.750193521" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
+            <input type="text" id="rank2" name="entry.31621474" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
             <div class="custom-select-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第3位（3ポイント）</h3>
-            <input type="text" id="rank3" name="entry.31621474" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
+            <input type="text" id="rank3" name="entry.40889445" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
             <div class="custom-select-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第4位（2ポイント）</h3>
-            <input type="text" id="rank4" name="entry.40889445" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
+            <input type="text" id="rank4" name="entry.315951763" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
             <div class="custom-select-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第5位（1ポイント）</h3>
-            <input type="text" id="rank5" name="entry.315951763" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
+            <input type="text" id="rank5" name="entry.394870291" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
             <div class="custom-select-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>ひとこと</h3>
-            <textarea id="voterComment" name="entry.394870291" placeholder="推し曲への想いや一言をどうぞ！"></textarea>
+            <textarea id="voterComment" name="entry.1048729633" placeholder="推し曲への想いや一言をどうぞ！"></textarea>
         </div>
 
-        <button type="submit" class="submit-btn">投票を送信してツイートする</button>
+        <button type="submit" class="submit-btn">投票を送信してツイートする<br>(スマホの方は一度前のページに戻るとツイートできます)</button>
     </form>
 
     <div id="shareSection" class="share-section">
@@ -252,7 +253,7 @@ const songList = [
     "私はイマドキ新世代バンパイア！ (亜人ちゃんは語りたい)",
     "Growing! (ガーリッシュ ナンバー)",
     "はわわSpring (ガーリッシュ ナンバー)",
-    "十五の月 (うらら迷路帖)",
+    "十五 of 月 (うらら迷路帖)",
     "うたおう♪ここったまーち！ (かみさまみならい ヒミツのここたま)",
     "ドキドキ迷宮 (うらら迷路帖)",
     "出会えてよかった (うらら迷路帖)",
@@ -463,20 +464,15 @@ document.getElementById('voteForm').addEventListener('keydown', function(e) {
     }
 });
 
-// ★スマホ完全対応の確定データ送信ロジック
 function handleFormSubmit(event) {
-    event.preventDefault(); // 外部への強制ブラウザ遷移を完全にシャットアウト
+    event.preventDefault();
 
-    // 1. 各入力パーツの値を取得
-    const voterName = document.getElementById('voterName').value;
     const r1 = document.getElementById('rank1').value || "（未選択）";
     const r2 = document.getElementById('rank2').value || "（未選択）";
     const r3 = document.getElementById('rank3').value || "（未選択）";
     const r4 = document.getElementById('rank4').value || "（未選択）";
     const r5 = document.getElementById('rank5').value || "（未選択）";
-    const voterComment = document.getElementById('voterComment').value;
 
-    // 2. ツイート文面の生成とボタンリンクの構築
     let tweetText = "「本渡さん キャラソン人気投票」に投票しました！\n\n"
                   + "1位： " + r1 + "\n"
                   + "2位： " + r2 + "\n"
@@ -488,35 +484,18 @@ function handleFormSubmit(event) {
     const tweetUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText);
     document.getElementById('tweetBtn').href = tweetUrl;
 
-    // 3. 最前面の別タブでX（Twitter）を開く（クリックと連動しているためポップアップ制限を回避）
     window.open(tweetUrl, '_blank');
 
-    // 4. スマホの不整合を完全に無くすプレーンなクエリパラメータ（テキストデータ）に変換
-    const params = new URLSearchParams();
-    params.append('entry.994703426', voterName);
-    params.append('entry.1048729633', r1);
-    params.append('entry.750193521', r2);
-    params.append('entry.31621474', r3);
-    params.append('entry.40889445', r4);
-    params.append('entry.315951763', r5);
-    params.append('entry.394870291', voterComment);
-
-    // 5. Fetch APIを使ってGoogleのサーバーに純粋な文字列としてバックグラウンド送信
+    const formData = new FormData(document.getElementById('voteForm'));
     fetch(document.getElementById('voteForm').action, {
         method: 'POST',
-        mode: 'no-cors', // クロスドメインによる遮断を回避する重要パラメータ
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: params.toString() // 完全な文字列に固定してパケットを飛ばす
+        body: formData,
+        mode: 'no-cors'
     }).then(() => {
-        // 送信が通ったら投票フォームを消し、サイト内を完了画面へ移行
         document.getElementById('voteForm').style.display = 'none';
         document.getElementById('shareSection').style.display = 'block';
-    }).catch(() => {
-        // 万が一のネットワーク切断時の保険挙動
-        document.getElementById('voteForm').style.display = 'none';
-        document.getElementById('shareSection').style.display = 'block';
+    }).catch((err) => {
+        document.getElementById('voteForm').submit();
     });
 }
 </script>
