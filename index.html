@@ -122,10 +122,6 @@
         .twitter-btn:hover {
             background-color: #2d3748;
         }
-        
-        #hidden_iframe {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -139,42 +135,44 @@
         お名前と1位は必須項目です。2位〜5位、ひとことは空欄のまま送信も可能です。
     </div>
 
-    <!-- onsubmitイベントをトリガーに設定 -->
-    <form id="voteForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfOW49boR8IQbAVzGRezkhj2Jo9wmUSKMcqW3ntGR9miLY0Qw/formResponse" method="POST" target="hidden_iframe" onsubmit="handleFormSubmit()">
+    <form id="voteForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfOW49boR8IQbAVzGRezkhj2Jo9wmUSKMcqW3ntGR9miLY0Qw/formResponse" method="POST" target="_blank" onsubmit="handleFormSubmit()">
         
+        <!-- お名前入力欄 -->
         <div class="vote-group">
             <h3>お名前（ハンドルネーム可） *必須</h3>
-            <input type="text" id="voterName" name="entry.567332242" placeholder="お名前を入力してください" required>
+            <input type="text" id="voterName" name="entry.994703426" placeholder="お名前を入力してください" required>
         </div>
 
+        <!-- 各順位の投票欄 -->
         <div class="vote-group">
             <h3>第1位（5ポイント） *必須</h3>
-            <input type="text" id="rank1" name="entry.1342676766" list="song-list" placeholder="曲名や作品名を入力して検索..." required>
+            <input type="text" id="rank1" name="entry.750193521" list="song-list" placeholder="曲名や作品名を入力して検索..." required>
         </div>
 
         <div class="vote-group">
             <h3>第2位（4ポイント）</h3>
-            <input type="text" id="rank2" name="entry.1583271960" list="song-list" placeholder="曲名や作品名を入力して検索...">
+            <input type="text" id="rank2" name="entry.31621474" list="song-list" placeholder="曲名や作品名を入力して検索...">
         </div>
 
         <div class="vote-group">
             <h3>第3位（3ポイント）</h3>
-            <input type="text" id="rank3" name="entry.1280315421" list="song-list" placeholder="曲名や作品名を入力して検索...">
+            <input type="text" id="rank3" name="entry.40889445" list="song-list" placeholder="曲名や作品名を入力して検索...">
         </div>
 
         <div class="vote-group">
             <h3>第4位（2ポイント）</h3>
-            <input type="text" id="rank4" name="entry.221160867" list="song-list" placeholder="曲名や作品名を入力して検索...">
+            <input type="text" id="rank4" name="entry.315951763" list="song-list" placeholder="曲名や作品名を入力して検索...">
         </div>
 
         <div class="vote-group">
             <h3>第5位（1ポイント）</h3>
-            <input type="text" id="rank5" name="entry.1379563242" list="song-list" placeholder="曲名や作品名を入力して検索...">
+            <input type="text" id="rank5" name="entry.394870291" list="song-list" placeholder="曲名や作品名を入力して検索...">
         </div>
 
+        <!-- 一言コメント入力欄 -->
         <div class="vote-group">
             <h3>ひとこと</h3>
-            <textarea id="voterComment" name="entry.245353112" placeholder="推し曲への想いや一言をどうぞ！"></textarea>
+            <textarea id="voterComment" name="entry.1048729633" placeholder="推し曲への想いや一言をどうぞ！"></textarea>
         </div>
 
         <button type="submit" class="submit-btn">投票を送信する</button>
@@ -186,9 +184,6 @@
         <a id="tweetBtn" class="twitter-btn" href="#" target="_blank">投票結果をツイートする</a>
     </div>
 </div>
-
-<!-- iframeのonloadを削除してJS側で安全に制御 -->
-<iframe name="hidden_iframe" id="hidden_iframe"></iframe>
 
 <datalist id="song-list">
     <option value="ソメラ色デイズ (不思議なソメラちゃん)">
@@ -253,7 +248,7 @@
     <option value="Twinkle Shiny Star (モンソニ！)">
     <option value="Memories (こみっくがーるず)">
     <option value="涙はみせない (こみっくがーるず)">
-    <option value="キラリ☆ω★NyanRISE！ (白黒テリームコラボ アイドルωキャッツ！)">
+    <option value="キラリ☆ω★NyanRISE！ (白黒テニス☆ドリームコラボ アイドルωキャッツ！)">
     <option value="たそがれてLittle Song (ヒナまつり)">
     <option value="虹色パレット (こみっくがーるず)">
     <option value="こみっくせんせーしょん！ (こみっくがーるず)">
@@ -379,14 +374,14 @@ document.getElementById('voteForm').addEventListener('keydown', function(e) {
     }
 });
 
-// 2. 送信ボタンが押された時の処理（送信データを保護しつつ確実に画面を切り替える）
+// 2. 送信時の処理
 function handleFormSubmit() {
-    // ブラウザに送信処理を走らせる時間をほんの少し（0.3秒）だけ与えてから画面を切り替える
-    setTimeout(function() {
-        document.getElementById('voteForm').style.display = 'none';
-        document.getElementById('shareSection').style.display = 'block';
-        createTweetLink();
-    }, 300);
+    // フォームが非表示になる前に、最優先でツイートリンクの生成と流し込みを完了させる
+    createTweetLink();
+
+    // リンク生成完了後に、安全に表示を切り替える（これでブラウザのブロックを防ぐ）
+    document.getElementById('voteForm').style.display = 'none';
+    document.getElementById('shareSection').style.display = 'block';
 }
 
 // 3. 曲名データを拾ってツイートリンクを作る処理
