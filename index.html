@@ -61,6 +61,7 @@
             box-sizing: border-box;
             font-size: 15px;
             font-family: inherit;
+            background-color: white;
         }
         input[type="text"]:focus, textarea:focus {
             outline: none;
@@ -72,30 +73,37 @@
             min-height: 80px;
         }
         
-        /* スマホ向け：自作サジェスト検索リストのスタイル */
-        .suggest-box {
+        /* 自作ドロップダウン検索リスト */
+        .custom-select-box {
             position: absolute;
             left: 15px;
             right: 15px;
-            max-height: 200px;
+            max-height: 220px;
             overflow-y: auto;
             background: white;
             border: 1px solid #cbd5e0;
             border-top: none;
-            border-radius: 0 0 4px 4px;
+            border-radius: 0 0 6px 6px;
             z-index: 9999;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
             display: none;
+            -webkit-overflow-scrolling: touch;
         }
-        .suggest-item {
-            padding: 10px;
+        .custom-select-item {
+            padding: 12px 15px;
             cursor: pointer;
             font-size: 14px;
             border-bottom: 1px solid #edf2f7;
+            color: #4a5568;
+            -webkit-tap-highlight-color: transparent;
         }
-        .suggest-item:hover, .suggest-item.active {
+        .custom-select-item:last-child {
+            border-bottom: none;
+        }
+        .custom-select-item:active, .custom-select-item:hover {
             background-color: #ebf8ff;
             color: #2b6cb0;
+            font-weight: bold;
         }
 
         .submit-btn {
@@ -172,32 +180,32 @@
 
         <div class="vote-group">
             <h3>第1位（5ポイント） *必須</h3>
-            <input type="text" id="rank1" name="entry.750193521" class="search-input" placeholder="曲名や作品名を入力して検索..." required autocomplete="off">
-            <div class="suggest-box"></div>
+            <input type="text" id="rank1" name="entry.750193521" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." required autocomplete="off" style="background-color: #fff;">
+            <div class="custom-select-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第2位（4ポイント）</h3>
-            <input type="text" id="rank2" name="entry.31621474" class="search-input" placeholder="曲名や作品名を入力して検索..." autocomplete="off">
-            <div class="suggest-box"></div>
+            <input type="text" id="rank2" name="entry.31621474" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
+            <div class="custom-select-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第3位（3ポイント）</h3>
-            <input type="text" id="rank3" name="entry.40889445" class="search-input" placeholder="曲名や作品名を入力して検索..." autocomplete="off">
-            <div class="suggest-box"></div>
+            <input type="text" id="rank3" name="entry.40889445" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
+            <div class="custom-select-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第4位（2ポイント）</h3>
-            <input type="text" id="rank4" name="entry.315951763" class="search-input" placeholder="曲名や作品名を入力して検索..." autocomplete="off">
-            <div class="suggest-box"></div>
+            <input type="text" id="rank4" name="entry.315951763" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
+            <div class="custom-select-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第5位（1ポイント）</h3>
-            <input type="text" id="rank5" name="entry.394870291" class="search-input" placeholder="曲名や作品名を入力して検索..." autocomplete="off">
-            <div class="suggest-box"></div>
+            <input type="text" id="rank5" name="entry.394870291" class="search-input" placeholder="入力して検索 / クリックで一覧表示..." autocomplete="off" style="background-color: #fff;">
+            <div class="custom-select-box"></div>
         </div>
 
         <div class="vote-group">
@@ -223,4 +231,272 @@ const songList = [
     "twin flower (不思議なソメラちゃん)",
     "こころだいすきここったま！ (かみさまみならい ヒミツのここたま)",
     "Candy Star☆ミ (アイドルコネクト-AsteriskLive-)",
-    "Flower Tune (アイドルコネクト-AsteriskLive-
+    "Flower Tune (アイドルコネクト-AsteriskLive-)",
+    "Pastel Graph (アイドルコネクト-AsteriskLive-)",
+    "Fantas/HIP Girlfriends! (競女!!!!!!!!)",
+    "Touch Your Heart (競女!!!!!!!!)",
+    "イレイサーボーイズ (はんだくん)",
+    "たいせつなもの (かみさまみならい ヒミツのここたま)",
+    "Bloom (ガーリッシュ ナンバー)",
+    "Decision (バトルガール ハイスクール)",
+    "Deep - Connect (バトルガール ハイスクール)",
+    "Desire Link (バトルガール ハイスクール)",
+    "今は短し夢見よ乙女 (ガーリッシュ ナンバー)",
+    "虹色Sunrise (ガーリッシュ ナンバー)",
+    "いただき☆ハイテンション (ガーリッシュ ナンバー)",
+    "Checkあ (ガーリッシュ ナンバー)",
+    "明日への途中で (ガーリッシュ ナンバー)",
+    "Colorful gift (アイドルコネクト-AsteriskLive-)",
+    "Cat-Cat Romance (バトルガール ハイスクール)",
+    "うららか日和の四重奏 (うらら迷路帖)",
+    "夢路らびりんす (うらら迷路帖)",
+    "私はイマドキ新世代バンパイア！ (亜人ちゃんは語りたい)",
+    "Growing! (ガーリッシュ ナンバー)",
+    "はわわSpring (ガーリッシュ ナンバー)",
+    "十五の月 (うらら迷路帖)",
+    "うたおう♪ここったまーち！ (かみさまみならい ヒミツのここたま)",
+    "ドキドキ迷宮 (うらら迷路帖)",
+    "出会えてよかった (うらら迷路帖)",
+    "We are \"Two for all\" (モンソニ！)",
+    "キズナ Sparkling World -Two for all Edhition- (Short ver.) (モンソニ！)",
+    "全力アイドル宣言♡ -Two for all Edhition- (Short ver.) (モンソニ！)",
+    "Gravity (バトルガール ハイスクール)",
+    "Melody Ring (バトルガール ハイスクール)",
+    "ホシノキズナ (バトルガール ハイスクール)",
+    "Star*Trine (アイドルコネクト-AsteriskLive-)",
+    "go to Romannce>>>>> (うらら迷路帖)",
+    "Song of Memories (Song of Memories)",
+    "To You... (Song of Memories)",
+    "LUSH STAR☆ (温泉むすめ)",
+    "恋と名付けたもの (温泉むすめ)",
+    "グッドラック ライラック (アニメガタリズ)",
+    "空色メモリーズ (バトルガール ハイスクール)",
+    "恋するG・A・T・A・L・I・S! (アニメガタリズ)",
+    "ビギン・ザ・ワールド (Project 758)",
+    "キミはキミであれ (本渡楓・長谷川唯のらじめも！)",
+    "Save you Save me (刀使ノ巫女)",
+    "心のメモリア (刀使ノ巫女)",
+    "二重のキズナ (刀使ノ巫女)",
+    "Sword＆ Wing (刀使ノ巫女)",
+    "たてよ！波風！！ (フィギュアヘッズ)",
+    "Shining Doublle Star (刀使ノ巫女)",
+    "ころころここたま！ ～なかなかなかよしバージョン～ (かみさまみならい ヒミツのここたま)",
+    "今この身が果てようとも (刀使ノ巫女)",
+    "進化系Colors (刀使ノ巫女)",
+    "鎮魂の夜想曲 (刀使ノ巫女)",
+    "未来エピローグ (刀使ノ巫女)",
+    "Twinkle Shiny Star (モンソニ！)",
+    "Memories (こみっくがーるず)",
+    "涙はみせない (こみっくがーるず)",
+    "キラリ☆ω★NyanRISE！ (白黒テニス☆ドリームコラボ アイドルωキャッツ！)",
+    "たそがれてLittle Song (ヒナまつり)",
+    "虹色パレット (こみっくがーるず)",
+    "こみっくせんせーしょん！ (こみっくがーるず)",
+    "Danger in my 通学路 (ちおちゃんの通学路)精度",
+    "こころとのぞみ (かみさまみならい ヒミツのここたま)",
+    "Link (オルタナティブガールズ2)",
+    "Doll's Destiny (プロジェクト東京ドールズ)",
+    "永遠メモリー (プロジェクト東京ドールズ)",
+    "勝利への標 (プロジェクト東京ドールズ)",
+    "輝けスクールライフ (オルタナティブガールズ2)",
+    "光へ (ゾンビランドサガ)",
+    "徒花ネクロマンシー (ゾンビランドサガ)",
+    "DEAD or RAP!!! (ゾンビランドサガ)",
+    "アツクナレ (ゾンビランドサガ)",
+    "ようこそ佐賀へ (ゾンビランドサガ)",
+    "目覚め RETURNER (ゾンビランドサガ)",
+    "To my Dearest (ゾンビランドサガ)",
+    "ドライブイン鳥(フランシュシュver.) (ゾンビランドサガ)",
+    "特攻DANCE～DAWN OF THE BAD～ (ゾンビランドサガ)",
+    "最高の魔法 (色づく世界の明日から)",
+    "Perfect Glory～旋律の彼方へ～feat.ダルタニャン (モンソニ！)",
+    "FLAGをはためかせろ！ (ゾンビランドサガ)",
+    "ヨミガエレ (ゾンビランドサガ)",
+    "Bラッパーズのテーマ (Bラッパーズストリート)",
+    "この番組はうら若き公務員たちの提供でお送りいたします (刀使ノ巫女)",
+    "Circle of Life (モンソニ！)",
+    "キボウノツボミ (結城友奈は勇者である)",
+    "勇気のバトン (結城友奈は勇者である)",
+    "CROSSING SWORDS! (戦×恋)",
+    "UP-DATE × PLEASE!!!!!!!!! (戦×恋)",
+    "輝いて (ゾンビランドサガ)",
+    "佐賀事変 (ゾンビランドサガ)",
+    "宣誓！ALIVE センセーション (ゾンビランドサガ)",
+    "Clover wish (推しが武道館いってくれたら死ぬ)",
+    "Fall in Love (推しが武道館いってくれたら死ぬ)",
+    "ずっと ChamJam (推しが武道館いってくれたら死ぬ)",
+    "ほっと♡サマーホリデー (推しが武道館いってくれたら死ぬ)",
+    "It's OK!! (プロジェクト東京ドールズ)",
+    "Smile Again (プロジェクト東京ドールズ)",
+    "クリスマスマーチ (プロジェクト東京ドールズ)",
+    "はじまりのハーモニー (プロジェクト東京ドールズ)",
+    "ヒカリ (プロジェクト東京ドールズ)",
+    "言の葉シンフォニー (プロジェクト東京ドールズ)",
+    "追い風Brave motion!! (プロジェクト東京ドールズ)",
+    "私たちが武道館にいったら (推しが武道館いってくれたら死ぬ)",
+    "今日は、ひとりだね (Flower Garden)",
+    "君は天然色～めぐろ川たんていじむしょver.～ (かくしごと)",
+    "愛がゆえゆえ (かくしごと)",
+    "ゾンビランドDEMPA!! (ゾンビランドサガ)",
+    "Departure (バトルガール ハイスクール)",
+    "LINK (モンソニ！)",
+    "FLAP！ (荒野のコトブキ飛行隊 大空のテイクオフガールズ！)",
+    "You are in my eyes (シャドウバース)",
+    "ガールズ ラジオ デイズ (ガールズ ラジオ デイズ)",
+    "大河よ共に泣いてくれ (ゾンビランドサガ)",
+    "夢を手に、戻れる場所もない日々を (ゾンビランドサガ)",
+    "REVENGE (ゾンビランドサガ)",
+    "激昂サバイブ (ゾンビランドサガ)",
+    "風の強い日は嫌いか? FranChouChou cover (ゾンビランドサガ)",
+    "ぶっちゃけてフォーユー (ゾンビランドサガ)",
+    "D-(A)LIVE!! (WIXOSS DIVA(A)LIVE)",
+    "追い風トラベラーズ (ゾンビランドサガ)",
+    "Ⅸ. THE ICE (メメントモリ)",
+    "AnotherDreamer (プロジェクト東京ドールズ)",
+    "Pray Breath (プロジェクト東京ドールズ)",
+    "Precious day (プロジェクト東京ドールズ)",
+    "Starry heart Starry love (プロジェクト東京ドールズ)",
+    "わたし (プロジェクト東京ドールズ)",
+    "感情を超えて (プロジェクト東京ドールズ)",
+    "キラメクMiLieへ (ブルーアーカイブ)",
+    "はじまりのセツナ (明日ちゃんのセーラー服)",
+    "Beginning (ゾンビランドサガ)",
+    "We are FranChouChou! (ゾンビランドサガ)",
+    "冒険ズンドコドン! (ゾンビランドサガ)",
+    "Aster wish (推しが武道館いってくれたら死ぬ)",
+    "ぎゅっとHUGみ～ (推しが武道館いってくれたら死ぬ)",
+    "Miko METAL (やじきた道中記)",
+    "Miracle Party Time (やじきた道中記)",
+    "たたまに握っただけなのに (やじきた道中記)",
+    "花咲く祈り (やじきた道中記)",
+    "ワンダー・ファニー・ハーモニー (ブルーアーカイブ)",
+    "風味絶佳 (Cover) [TVsize] (おかしな転生)",
+    "Marine Side Dream (レヱル・ロマネスク)",
+    "大大大大大好きな君へ♡ (君のことが大大大大大好きな100人の彼女)",
+    "えがおの花束 (アークナイツ)",
+    "ミナモト (アークナイツ)",
+    "全力絶対Come☆True (ブルーアーカイブ)",
+    "手つなぎハッピーエンド  (ブルーアーカイブ)",
+    "Glitter (モンソニ！)",
+    "好きなんです！ (ブルーアーカイブ)",
+    "OverOverHappy (痛いのは嫌なので防御力に極振りしたいと思います。)",
+    "Another world (痛いのは嫌なので防御力に極振りしたいと思います。)",
+    "君に恋を結んで (甘神さんちの縁結び)",
+    "桜のかくしごと (甘神さんちの縁結び)",
+    "夕色のねがいみち (甘神さんちの縁結び)",
+    "すきっちゃん！からチュッ (ゾンビランドサガ)",
+    "あたたかな雪の日 (メメントモリ)",
+    "Pray Pray Pray (甘神さんちの縁結び)",
+    "ありがと、大好きになってくれて (君のことが大大大大大好きな100人の彼女)",
+    "夢見る日和 (甘神さんちの縁結び)",
+    "見つけた願い、君との未来 (甘神さんちの縁結び)",
+    "Love Love 妄想パレード (君のことが大大大大大好きな100人の彼女)",
+    "七福大祭典 (ゾンビランドサガ)",
+    "Happy＊Happy (モンソニ！)",
+    "究極振切アドベンチャー (痛いのは嫌なので防御力に極振りしたいと思います。)",
+    "FULL BURST!!! (痛いのは嫌なので防御力に極振りしたいと思います。)",
+    "NOでぃふぇんす!!NOらいふ!! (痛いのは嫌なので防御力に極振りしたいと思います。)",
+    "My Best Friend (痛いのは嫌なので防御力に極振りしたいと思います。)",
+    "悠久ネバーダイ (ゾンビランドサガ)",
+    "今日が歴史に残るなら (ゾンビランドサガ)",
+    "またたく宇宙に憧れて (ゾンビランドサガ)",
+    "今を未来をありがとう (ゾンビランドサガ)"
+];
+
+// 自作セレクトボックス制御ロジック（PC・スマホ両対応版）
+document.querySelectorAll('.search-input').forEach(input => {
+    const box = input.nextElementSibling;
+
+    function renderList(list) {
+        box.innerHTML = '';
+        list.forEach(song => {
+            const item = document.createElement('div');
+            item.className = 'custom-select-item';
+            item.textContent = song;
+            
+            const selectAction = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                input.value = song;
+                box.style.display = 'none';
+            };
+            
+            // マウスでもスマホの指でも即座に応答する設計
+            item.addEventListener('mousedown', selectAction);
+            item.addEventListener('touchstart', selectAction);
+            box.appendChild(item);
+        });
+    }
+
+    // 入力枠をクリックまたはフォーカスした時に全曲リストを展開
+    const openBox = function(e) {
+        document.querySelectorAll('.custom-select-box').forEach(b => b.style.display = 'none');
+        renderList(songList);
+        box.style.display = 'block';
+    };
+
+    input.addEventListener('click', openBox);
+    input.addEventListener('focus', openBox);
+
+    // 文字が打ち込まれたらリアルタイムで高速絞り込み（PCのキーボード入力にも対応）
+    input.addEventListener('input', function() {
+        const val = this.value.trim().toLowerCase();
+        if (!val) {
+            renderList(songList);
+            return;
+        }
+        const filtered = songList.filter(song => song.toLowerCase().includes(val));
+        renderList(filtered);
+        box.style.display = 'block';
+    });
+});
+
+// リストの外側をクリック（タップ）したらドロップダウンを閉じる
+document.addEventListener('click', function(e) {
+    if (!e.target.classList.contains('search-input')) {
+        document.querySelectorAll('.custom-select-box').forEach(box => {
+            box.style.display = 'none';
+        });
+    }
+});
+
+// Enterキーによる誤送信防止
+document.getElementById('voteForm').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.keyCode === 13) {
+        if (e.target.type !== 'submit' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            return false;
+        }
+    }
+});
+
+// 送信時の処理
+function handleFormSubmit() {
+    createTweetLink();
+    document.getElementById('voteForm').style.display = 'none';
+    document.getElementById('shareSection').style.display = 'block';
+}
+
+// 曲名データを拾ってツイートリンクを作る処理
+function createTweetLink() {
+    const r1 = document.getElementById('rank1').value || "（未選択）";
+    const r2 = document.getElementById('rank2').value || "（未選択）";
+    const r3 = document.getElementById('rank3').value || "（未選択）";
+    const r4 = document.getElementById('rank4').value || "（未選択）";
+    const r5 = document.getElementById('rank5').value || "（未選択）";
+
+    let tweetText = "「本渡さん キャラソン人気投票」に投票しました！\n\n"
+                  + "1位： " + r1 + "\n"
+                  + "2位： " + r2 + "\n"
+                  + "3位： " + r3 + "\n"
+                  + "4位： " + r4 + "\n"
+                  + "5位： " + r5 + "\n\n"
+                  + "https://kamimu3.github.io/hondo-kaede-vote/";
+
+    const tweetUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText);
+    document.getElementById('tweetBtn').href = tweetUrl;
+}
+</script>
+
+</body>
+</html>
