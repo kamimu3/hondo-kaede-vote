@@ -171,7 +171,7 @@
         お名前と1位は必須項目です。2位〜5位、ひとことは空欄のまま送信も可能です。
     </div>
 
-    <form id="voteForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfOW49boR8IQbAVzGRezkhj2Jo9wmUSKMcqW3ntGR9miLY0Qw/formResponse" method="POST" target="_blank" onsubmit="handleFormSubmit()">
+    <form id="voteForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfOW49boR8IQbAVzGRezkhj2Jo9wmUSKMcqW3ntGR9miLY0Qw/formResponse" method="POST" onsubmit="handleFormSubmit(event)">
         
         <div class="vote-group">
             <h3>お名前（ハンドルネーム可） *必須</h3>
@@ -213,18 +213,17 @@
             <textarea id="voterComment" name="entry.1048729633" placeholder="推し曲への想いや一言をどうぞ！"></textarea>
         </div>
 
-        <button type="submit" class="submit-btn">投票を送信する</button>
+        <button type="submit" class="submit-btn">投票を送信してツイートする</button>
     </form>
 
     <div id="shareSection" class="share-section">
         <h2>投票を受付ました！</h2>
-        <p>あなたの投票内容をX（旧Twitter）で共有しましょう！</p>
-        <a id="tweetBtn" class="twitter-btn" href="#" target="_blank">投票結果をツイートする</a>
+        <p>もしツイート画面がブロックされた場合は、以下のボタンから手動でシェアできます。</p>
+        <a id="tweetBtn" class="twitter-btn" href="#" target="_blank">もう一度ツイートする</a>
     </div>
 </div>
 
 <script>
-// 全175曲のマスタデータ配列
 const songList = [
     "ソメラ色デイズ (不思議なソメラちゃん)",
     "プリズムMAX～平成維新フルHDリマスター版～ (不思議なソメラちゃん)",
@@ -367,7 +366,7 @@ const songList = [
     "ぎゅっとHUGみ～ (推しが武道館いってくれたら死ぬ)",
     "Miko METAL (やじきた道中記)",
     "Miracle Party Time (やじきた道中記)",
-    "たたまに握っただけなのに (やじきた道中記)",
+    "たまたま握っただけなのに (やじきた道中記)",
     "花咲く祈り (やじきた道中記)",
     "ワンダー・ファニー・ハーモニー (ブルーアーカイブ)",
     "風味絶佳 (Cover) [TVsize] (おかしな転生)",
@@ -403,7 +402,6 @@ const songList = [
     "今を未来をありがとう (ゾンビランドサガ)"
 ];
 
-// 自作セレクトボックス制御ロジック（PC・スマホ両対応版）
 document.querySelectorAll('.search-input').forEach(input => {
     const box = input.nextElementSibling;
 
@@ -421,14 +419,12 @@ document.querySelectorAll('.search-input').forEach(input => {
                 box.style.display = 'none';
             };
             
-            // マウスでもスマホの指でも即座に応答する設計
             item.addEventListener('mousedown', selectAction);
             item.addEventListener('touchstart', selectAction);
             box.appendChild(item);
         });
     }
 
-    // 入力枠をクリックまたはフォーカスした時に全曲リストを展開
     const openBox = function(e) {
         document.querySelectorAll('.custom-select-box').forEach(b => b.style.display = 'none');
         renderList(songList);
@@ -438,7 +434,6 @@ document.querySelectorAll('.search-input').forEach(input => {
     input.addEventListener('click', openBox);
     input.addEventListener('focus', openBox);
 
-    // 文字が打ち込まれたらリアルタイムで高速絞り込み（PCのキーボード入力にも対応）
     input.addEventListener('input', function() {
         const val = this.value.trim().toLowerCase();
         if (!val) {
@@ -451,7 +446,6 @@ document.querySelectorAll('.search-input').forEach(input => {
     });
 });
 
-// リストの外側をクリック（タップ）したらドロップダウンを閉じる
 document.addEventListener('click', function(e) {
     if (!e.target.classList.contains('search-input')) {
         document.querySelectorAll('.custom-select-box').forEach(box => {
@@ -460,7 +454,6 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Enterキーによる誤送信防止
 document.getElementById('voteForm').addEventListener('keydown', function(e) {
     if (e.key === 'Enter' || e.keyCode === 13) {
         if (e.target.type !== 'submit' && e.target.tagName !== 'TEXTAREA') {
@@ -470,15 +463,11 @@ document.getElementById('voteForm').addEventListener('keydown', function(e) {
     }
 });
 
-// 送信時の処理
-function handleFormSubmit() {
-    createTweetLink();
-    document.getElementById('voteForm').style.display = 'none';
-    document.getElementById('shareSection').style.display = 'block';
-}
+// ★送信ボタンが押された瞬間の新しい制御ロジック
+function handleFormSubmit(event) {
+    event.preventDefault(); // 通常のページ遷移（別タブ強制移動）を完全に一時停止
 
-// 曲名データを拾ってツイートリンクを作る処理
-function createTweetLink() {
+    // 1. まず最優先でXのツイート画面用URLをバックグラウンド生成
     const r1 = document.getElementById('rank1').value || "（未選択）";
     const r2 = document.getElementById('rank2').value || "（未選択）";
     const r3 = document.getElementById('rank3').value || "（未選択）";
@@ -495,6 +484,25 @@ function createTweetLink() {
 
     const tweetUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText);
     document.getElementById('tweetBtn').href = tweetUrl;
+
+    // 2. ユーザーがボタンを押した直後の判定を残したまま、最前面の新しいタブでX（Twitter）を開く
+    // これによりブラウザのポップアップブロックを完全に無効化して最前面化させる
+    window.open(tweetUrl, '_blank');
+
+    // 3. Xを開いた直後、裏側（バックグラウンド）でGoogleフォームへデータを非同期送信（Fetch通信）
+    const formData = new FormData(document.getElementById('voteForm'));
+    fetch(document.getElementById('voteForm').action, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors' // Googleフォーム特有のクロスドメイン制限をすり抜ける設定
+    }).then(() => {
+        // 4. データ送信が完了したら、元の投票サイトを完了画面へ静かに切り替える
+        document.getElementById('voteForm').style.display = 'none';
+        document.getElementById('shareSection').style.display = 'block';
+    }).catch((err) => {
+        // 万が一ネットワークエラーが発生した場合の保険処理
+        document.getElementById('voteForm').submit();
+    });
 }
 </script>
 
