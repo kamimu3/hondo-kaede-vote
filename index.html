@@ -136,19 +136,17 @@
 
     <div class="rule-box">
         <strong>【投票ルール】</strong><br>
-        1位＝5pt / 2位＝4pt / 3位＝3pt / 4位＝2pt / 5位＝1pt<br>
-        ※1位は必須項目です。2位〜5位は空欄のまま送信も可能です。
+        お名前と1位は必須項目です。2位〜5位、ひとことは空欄のまま送信も可能です。
     </div>
 
-    <form id="voteForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfOW49boR8IQbAVzGRezkhj2Jo9wmUSKMcqW3ntGR9miLY0Qw/formResponse" method="POST" target="hidden_iframe">
+    <!-- onsubmitイベントをトリガーに設定 -->
+    <form id="voteForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfOW49boR8IQbAVzGRezkhj2Jo9wmUSKMcqW3ntGR9miLY0Qw/formResponse" method="POST" target="hidden_iframe" onsubmit="handleFormSubmit()">
         
-        <!-- お名前入力欄 -->
         <div class="vote-group">
-            <h3>お名前（ハンドルネーム可）*必須</h3>
-            <input type="text" id="voterName" name="entry.567332242" placeholder="お名前を入力">
+            <h3>お名前（ハンドルネーム可） *必須</h3>
+            <input type="text" id="voterName" name="entry.567332242" placeholder="お名前を入力してください" required>
         </div>
 
-        <!-- 各順位の投票欄 -->
         <div class="vote-group">
             <h3>第1位（5ポイント） *必須</h3>
             <input type="text" id="rank1" name="entry.1342676766" list="song-list" placeholder="曲名や作品名を入力して検索..." required>
@@ -174,7 +172,6 @@
             <input type="text" id="rank5" name="entry.1379563242" list="song-list" placeholder="曲名や作品名を入力して検索...">
         </div>
 
-        <!-- 一言コメント入力欄（表記を「ひとこと」に変更） -->
         <div class="vote-group">
             <h3>ひとこと</h3>
             <textarea id="voterComment" name="entry.245353112" placeholder="推し曲への想いや一言をどうぞ！"></textarea>
@@ -190,7 +187,8 @@
     </div>
 </div>
 
-<iframe name="hidden_iframe" id="hidden_iframe" onload="if(submitted) { showShareBtn(); }"></iframe>
+<!-- iframeのonloadを削除してJS側で安全に制御 -->
+<iframe name="hidden_iframe" id="hidden_iframe"></iframe>
 
 <datalist id="song-list">
     <option value="ソメラ色デイズ (不思議なソメラちゃん)">
@@ -255,7 +253,7 @@
     <option value="Twinkle Shiny Star (モンソニ！)">
     <option value="Memories (こみっくがーるず)">
     <option value="涙はみせない (こみっくがーるず)">
-    <option value="キラリ☆ω★NyanRISE！ (白黒テニス☆ドリームコラボ アイドルωキャッツ！)">
+    <option value="キラリ☆ω★NyanRISE！ (白黒テリームコラボ アイドルωキャッツ！)">
     <option value="たそがれてLittle Song (ヒナまつり)">
     <option value="虹色パレット (こみっくがーるず)">
     <option value="こみっくせんせーしょん！ (こみっくがーるず)">
@@ -371,8 +369,6 @@
 </datalist>
 
 <script>
-let submitted = false;
-
 // 1. 検索中のEnterキーによる誤送信を防止する処理
 document.getElementById('voteForm').addEventListener('keydown', function(e) {
     if (e.key === 'Enter' || e.keyCode === 13) {
@@ -383,15 +379,18 @@ document.getElementById('voteForm').addEventListener('keydown', function(e) {
     }
 });
 
-document.getElementById('voteForm').addEventListener('submit', function() {
-    submitted = true;
-});
+// 2. 送信ボタンが押された時の処理（送信データを保護しつつ確実に画面を切り替える）
+function handleFormSubmit() {
+    // ブラウザに送信処理を走らせる時間をほんの少し（0.3秒）だけ与えてから画面を切り替える
+    setTimeout(function() {
+        document.getElementById('voteForm').style.display = 'none';
+        document.getElementById('shareSection').style.display = 'block';
+        createTweetLink();
+    }, 300);
+}
 
-// 2. 投票完了後に走り、曲名データのみを拾ってツイートリンクを作る処理
-function showShareBtn() {
-    document.getElementById('voteForm').style.display = 'none';
-    document.getElementById('shareSection').style.display = 'block';
-
+// 3. 曲名データを拾ってツイートリンクを作る処理
+function createTweetLink() {
     const r1 = document.getElementById('rank1').value || "（未選択）";
     const r2 = document.getElementById('rank2').value || "（未選択）";
     const r3 = document.getElementById('rank3').value || "（未選択）";
