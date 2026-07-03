@@ -46,6 +46,7 @@
             padding: 15px;
             border-radius: 6px;
             border: 1px solid #edf2f7;
+            position: relative;
         }
         .vote-group h3 {
             margin: 0 0 10px 0;
@@ -70,6 +71,33 @@
             resize: vertical;
             min-height: 80px;
         }
+        
+        /* スマホ向け：自作サジェスト検索リストのスタイル */
+        .suggest-box {
+            position: absolute;
+            left: 15px;
+            right: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #cbd5e0;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            z-index: 9999;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .suggest-item {
+            padding: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .suggest-item:hover, .suggest-item.active {
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+        }
+
         .submit-btn {
             display: block;
             width: 100%;
@@ -137,39 +165,41 @@
 
     <form id="voteForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfOW49boR8IQbAVzGRezkhj2Jo9wmUSKMcqW3ntGR9miLY0Qw/formResponse" method="POST" target="_blank" onsubmit="handleFormSubmit()">
         
-        <!-- お名前入力欄 -->
         <div class="vote-group">
             <h3>お名前（ハンドルネーム可） *必須</h3>
-            <input type="text" id="voterName" name="entry.994703426" placeholder="お名前を入力してください" required>
+            <input type="text" id="voterName" name="entry.994703426" placeholder="お名前を入力してください" required autocomplete="off">
         </div>
 
-        <!-- 各順位の投票欄 -->
         <div class="vote-group">
             <h3>第1位（5ポイント） *必須</h3>
-            <input type="text" id="rank1" name="entry.750193521" list="song-list" placeholder="曲名や作品名を入力して検索..." required>
+            <input type="text" id="rank1" name="entry.750193521" class="search-input" placeholder="曲名や作品名を入力して検索..." required autocomplete="off">
+            <div class="suggest-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第2位（4ポイント）</h3>
-            <input type="text" id="rank2" name="entry.31621474" list="song-list" placeholder="曲名や作品名を入力して検索...">
+            <input type="text" id="rank2" name="entry.31621474" class="search-input" placeholder="曲名や作品名を入力して検索..." autocomplete="off">
+            <div class="suggest-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第3位（3ポイント）</h3>
-            <input type="text" id="rank3" name="entry.40889445" list="song-list" placeholder="曲名や作品名を入力して検索...">
+            <input type="text" id="rank3" name="entry.40889445" class="search-input" placeholder="曲名や作品名を入力して検索..." autocomplete="off">
+            <div class="suggest-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第4位（2ポイント）</h3>
-            <input type="text" id="rank4" name="entry.315951763" list="song-list" placeholder="曲名や作品名を入力して検索...">
+            <input type="text" id="rank4" name="entry.315951763" class="search-input" placeholder="曲名や作品名を入力して検索..." autocomplete="off">
+            <div class="suggest-box"></div>
         </div>
 
         <div class="vote-group">
             <h3>第5位（1ポイント）</h3>
-            <input type="text" id="rank5" name="entry.394870291" list="song-list" placeholder="曲名や作品名を入力して検索...">
+            <input type="text" id="rank5" name="entry.394870291" class="search-input" placeholder="曲名や作品名を入力して検索..." autocomplete="off">
+            <div class="suggest-box"></div>
         </div>
 
-        <!-- 一言コメント入力欄 -->
         <div class="vote-group">
             <h3>ひとこと</h3>
             <textarea id="voterComment" name="entry.1048729633" placeholder="推し曲への想いや一言をどうぞ！"></textarea>
@@ -185,225 +215,12 @@
     </div>
 </div>
 
-<datalist id="song-list">
-    <option value="ソメラ色デイズ (不思議なソメラちゃん)">
-    <option value="プリズムMAX～平成維新フルHDリマスター版～ (不思議なソメラちゃん)">
-    <option value="twin flower (不思議なソメラちゃん)">
-    <option value="こころだいすきここったま！ (かみさまみならい ヒミツのここたま)">
-    <option value="Candy Star☆ミ (アイドルコネクト-AsteriskLive-)">
-    <option value="Flower Tune (アイドルコネクト-AsteriskLive-)">
-    <option value="Pastel Graph (アイドルコネクト-AsteriskLive-)">
-    <option value="Fantas/HIP Girlfriends! (競女!!!!!!!!)">
-    <option value="Touch Your Heart (競女!!!!!!!!)">
-    <option value="イレイサーボーイズ (はんだくん)">
-    <option value="たいせつなもの (かみさまみならい ヒミツのここたま)">
-    <option value="Bloom (ガーリッシュ ナンバー)">
-    <option value="Decision (バトルガール ハイスクール)">
-    <option value="Deep - Connect (バトルガール ハイスクール)">
-    <option value="Desire Link (バトルガール ハイスクール)">
-    <option value="今は短し夢見よ乙女 (ガーリッシュ ナンバー)">
-    <option value="虹色Sunrise (ガーリッシュ ナンバー)">
-    <option value="いただき☆ハイテンション (ガーリッシュ ナンバー)">
-    <option value="Checkあ (ガーリッシュ ナンバー)">
-    <option value="明日への途中で (ガーリッシュ ナンバー)">
-    <option value="Colorful gift (アイドルコネクト-AsteriskLive-)">
-    <option value="Cat-Cat Romance (バトルガール ハイスクール)">
-    <option value="うららか日和の四重奏 (うらら迷路帖)">
-    <option value="夢路らびりんす (うらら迷路帖)">
-    <option value="私はイマドキ新世代バンパイア！ (亜人ちゃんは語りたい)">
-    <option value="Growing! (ガーリッシュ ナンバー)">
-    <option value="はわわSpring (ガーリッシュ ナンバー)">
-    <option value="十五の月 (うらら迷路帖)">
-    <option value="うたおう♪ここったまーち！ (かみさまみならい ヒミツのここたま)">
-    <option value="ドキドキ迷宮 (うらら迷路帖)">
-    <option value="出会えてよかった (うらら迷路帖)">
-    <option value="We are \"Two for all\" (モンソニ！)">
-    <option value="キズナ Sparkling World -Two for all Edhition- (Short ver.) (モンソニ！)">
-    <option value="全力アイドル宣言♡ -Two for all Edhition- (Short ver.) (モンソニ！)">
-    <option value="Gravity (バトルガール ハイスクール)">
-    <option value="Melody Ring (バトルガール ハイスクール)">
-    <option value="ホシノキズナ (バトルガール ハイスクール)">
-    <option value="Star*Trine (アイドルコネクト-AsteriskLive-)">
-    <option value="go to Romannce>>>>> (うらら迷路帖)">
-    <option value="Song of Memories (Song of Memories)">
-    <option value="To You... (Song of Memories)">
-    <option value="LUSH STAR☆ (温泉むすめ)">
-    <option value="恋と名付けたもの (温泉むすめ)">
-    <option value="グッドラック ライラック (アニメガタリズ)">
-    <option value="空色メモリーズ (バトルガール ハイスクール)">
-    <option value="恋するG・A・T・A・L・I・S! (アニメガタリズ)">
-    <option value="ビギン・ザ・ワールド (Project 758)">
-    <option value="キミはキミであれ (本渡楓・長谷川唯のらじめも！)">
-    <option value="Save you Save me (刀使ノ巫女)">
-    <option value="心のメモリア (刀使ノ巫女)">
-    <option value="二重のキズナ (刀使ノ巫女)">
-    <option value="Sword＆ Wing (刀使ノ巫女)">
-    <option value="たてよ！波風！！ (フィギュアヘッズ)">
-    <option value="Shining Doublle Star (刀使ノ巫女)">
-    <option value="ころころここたま！ ～なかなかなかよしバージョン～ (かみさまみならい ヒミツのここたま)">
-    <option value="今この身が果てようとも (刀使ノ巫女)">
-    <option value="進化系Colors (刀使ノ巫女)">
-    <option value="鎮魂の夜想曲 (刀使ノ巫女)">
-    <option value="未来エピローグ (刀使ノ巫女)">
-    <option value="Twinkle Shiny Star (モンソニ！)">
-    <option value="Memories (こみっくがーるず)">
-    <option value="涙はみせない (こみっくがーるず)">
-    <option value="キラリ☆ω★NyanRISE！ (白黒テニス☆ドリームコラボ アイドルωキャッツ！)">
-    <option value="たそがれてLittle Song (ヒナまつり)">
-    <option value="虹色パレット (こみっくがーるず)">
-    <option value="こみっくせんせーしょん！ (こみっくがーるず)">
-    <option value="Danger in my 通学路 (ちおちゃんの通学路)精度">
-    <option value="こころとのぞみ (かみさまみならい ヒミツのここたま)">
-    <option value="Link (オルタナティブガールズ2)">
-    <option value="Doll's Destiny (プロジェクト東京ドールズ)">
-    <option value="永遠メモリー (プロジェクト東京ドールズ)">
-    <option value="勝利への標 (プロジェクト東京ドールズ)">
-    <option value="輝けスクールライフ (オルタナティブガールズ2)">
-    <option value="光へ (ゾンビランドサガ)">
-    <option value="徒花ネクロマンシー (ゾンビランドサガ)">
-    <option value="DEAD or RAP!!! (ゾンビランドサガ)">
-    <option value="アツクナレ (ゾンビランドサガ)">
-    <option value="ようこそ佐賀へ (ゾンビランドサガ)">
-    <option value="目覚め RETURNER (ゾンビランドサガ)">
-    <option value="To my Dearest (ゾンビランドサガ)">
-    <option value="ドライブイン鳥(フランシュシュver.) (ゾンビランドサガ)">
-    <option value="特攻DANCE～DAWN OF THE BAD～ (ゾンビランドサガ)">
-    <option value="最高の魔法 (色づく世界の明日から)">
-    <option value="Perfect Glory～旋律の彼方へ～feat.ダルタニャン (モンソニ！)">
-    <option value="FLAGをはためかせろ！ (ゾンビランドサガ)">
-    <option value="ヨミガエレ (ゾンビランドサガ)">
-    <option value="Bラッパーズのテーマ (Bラッパーズストリート)">
-    <option value="この番組はうら若き公務員たちの提供でお送りいたします (刀使ノ巫女)">
-    <option value="Circle of Life (モンソニ！)">
-    <option value="キボウノツボミ (結城友奈は勇者である)">
-    <option value="勇気のバトン (結城友奈は勇者である)">
-    <option value="CROSSING SWORDS! (戦×恋)">
-    <option value="UP-DATE × PLEASE!!!!!!!!! (戦×恋)">
-    <option value="輝いて (ゾンビランドサガ)">
-    <option value="佐賀事変 (ゾンビランドサガ)">
-    <option value="宣誓！ALIVE センセーション (ゾンビランドサガ)">
-    <option value="Clover wish (推しが武道館いってくれたら死ぬ)">
-    <option value="Fall in Love (推しが武道館いってくれたら死ぬ)">
-    <option value="ずっと ChamJam (推しが武道館いってくれたら死ぬ)">
-    <option value="ほっと♡サマーホリデー (推しが武道館いってくれたら死ぬ)">
-    <option value="It's OK!! (プロジェクト東京ドールズ)">
-    <option value="Smile Again (プロジェクト東京ドールズ)">
-    <option value="クリスマスマーチ (プロジェクト東京ドールズ)">
-    <option value="はじまりのハーモニー (プロジェクト東京ドールズ)">
-    <option value="ヒカリ (プロジェクト東京ドールズ)">
-    <option value="言の葉シンフォニー (プロジェクト東京ドールズ)">
-    <option value="追い風Brave motion!! (プロジェクト東京ドールズ)">
-    <option value="私たちが武道館にいったら (推しが武道館いってくれたら死ぬ)">
-    <option value="今日は、ひとりだね (Flower Garden)">
-    <option value="君は天然色～めぐろ川たんていじむしょver.～ (かくしごと)">
-    <option value="愛がゆえゆえ (かくしごと)">
-    <option value="ゾンビランドDEMPA!! (ゾンビランドサガ)">
-    <option value="Departure (バトルガール ハイスクール)">
-    <option value="LINK (モンソニ！)">
-    <option value="FLAP！ (荒野のコトブキ飛行隊 大空のテイクオフガールズ！)">
-    <option value="You are in my eyes (シャドウバース)">
-    <option value="ガールズ ラジオ デイズ (ガールズ ラジオ デイズ)">
-    <option value="大河よ共に泣いてくれ (ゾンビランドサガ)">
-    <option value="夢を手に、戻れる場所もない日々を (ゾンビランドサガ)">
-    <option value="REVENGE (ゾンビランドサガ)">
-    <option value="激昂サバイブ (ゾンビランドサガ)">
-    <option value="風の強い日は嫌いか? FranChouChou cover (ゾンビランドサガ)">
-    <option value="ぶっちゃけてフォーユー (ゾンビランドサガ)">
-    <option value="D-(A)LIVE!! (WIXOSS DIVA(A)LIVE)">
-    <option value="追い風トラベラーズ (ゾンビランドサガ)">
-    <option value="Ⅸ. THE ICE (メメントモリ)">
-    <option value="AnotherDreamer (プロジェクト東京ドールズ)">
-    <option value="Pray Breath (プロジェクト東京ドールズ)">
-    <option value="Precious day (プロジェクト東京ドールズ)">
-    <option value="Starry heart Starry love (プロジェクト東京ドールズ)">
-    <option value="わたし (プロジェクト東京ドールズ)">
-    <option value="感情を超えて (プロジェクト東京ドールズ)">
-    <option value="キラメクMiLieへ (ブルーアーカイブ)">
-    <option value="はじまりのセツナ (明日ちゃんのセーラー服)">
-    <option value="Beginning (ゾンビランドサガ)">
-    <option value="We are FranChouChou! (ゾンビランドサガ)">
-    <option value="冒険ズンドコドン! (ゾンビランドサガ)">
-    <option value="Aster wish (推しが武道館いってくれたら死ぬ)">
-    <option value="ぎゅっとHUGみ～ (推しが武道館いってくれたら死ぬ)">
-    <option value="Miko METAL (やじきた道中記)">
-    <option value="Miracle Party Time (やじきた道中記)">
-    <option value="たまたま握っただけなのに (やじきた道中記)">
-    <option value="花咲く祈り (やじきた道中記)">
-    <option value="ワンダー・ファニー・ハーモニー (ブルーアーカイブ)">
-    <option value="風味絶佳 (Cover) [TVsize] (おかしな転生)">
-    <option value="Marine Side Dream (レヱル・ロマネスク)">
-    <option value="大大大大大好きな君へ♡ (君のことが大大大大大好きな100人の彼女)">
-    <option value="えがおの花束 (アークナイツ)">
-    <option value="ミナモト (アークナイツ)">
-    <option value="全力絶対Come☆True (ブルーアーカイブ)">
-    <option value="手つなぎハッピーエンド  (ブルーアーカイブ)">
-    <option value="Glitter (モンソニ！)">
-    <option value="好きなんです！ (ブルーアーカイブ)">
-    <option value="OverOverHappy (痛いのは嫌なので防御力に極振りしたいと思います。)">
-    <option value="Another world (痛いのは嫌なので防御力に極振りしたいと思います。)">
-    <option value="君に恋を結んで (甘神さんちの縁結び)">
-    <option value="桜のかくしごと (甘神さんちの縁結び)">
-    <option value="夕色のねがいみち (甘神さんちの縁結び)">
-    <option value="すきっちゃん！からチュッ (ゾンビランドサガ)">
-    <option value="あたたかな雪の日 (メメントモリ)">
-    <option value="Pray Pray Pray (甘神さんちの縁結び)">
-    <option value="ありがと、大好きになってくれて (君のことが大大大大大好きな100人の彼女)">
-    <option value="夢見る日和 (甘神さんちの縁結び)">
-    <option value="見つけた願い、君との未来 (甘神さんちの縁結び)">
-    <option value="Love Love 妄想パレード (君のことが大大大大大好きな100人の彼女)">
-    <option value="七福大祭典 (ゾンビランドサガ)">
-    <option value="Happy＊Happy (モンソニ！)">
-    <option value="究極振切アドベンチャー (痛いのは嫌なので防御力に極振りしたいと思います。)">
-    <option value="FULL BURST!!! (痛いのは嫌なので防御力に極振りしたいと思います。)">
-    <option value="NOでぃふぇんす!!NOらいふ!! (痛いのは嫌なので防御力に極振りしたいと思います。)">
-    <option value="My Best Friend (痛いのは嫌なので防御力に極振りしたいと思います。)">
-    <option value="悠久ネバーダイ (ゾンビランドサガ)">
-    <option value="今日が歴史に残るなら (ゾンビランドサガ)">
-    <option value="またたく宇宙に憧れて (ゾンビランドサガ)">
-    <option value="今を未来をありがとう (ゾンビランドサガ)">
-</datalist>
-
 <script>
-// 1. 検索中のEnterキーによる誤送信を防止する処理
-document.getElementById('voteForm').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' || e.keyCode === 13) {
-        if (e.target.type !== 'submit' && e.target.tagName !== 'TEXTAREA') {
-            e.preventDefault();
-            return false;
-        }
-    }
-});
-
-// 2. 送信時の処理
-function handleFormSubmit() {
-    // フォームが非表示になる前に、最優先でツイートリンクの生成と流し込みを完了させる
-    createTweetLink();
-
-    // リンク生成完了後に、安全に表示を切り替える（これでブラウザのブロックを防ぐ）
-    document.getElementById('voteForm').style.display = 'none';
-    document.getElementById('shareSection').style.display = 'block';
-}
-
-// 3. 曲名データを拾ってツイートリンクを作る処理
-function createTweetLink() {
-    const r1 = document.getElementById('rank1').value || "（未選択）";
-    const r2 = document.getElementById('rank2').value || "（未選択）";
-    const r3 = document.getElementById('rank3').value || "（未選択）";
-    const r4 = document.getElementById('rank4').value || "（未選択）";
-    const r5 = document.getElementById('rank5').value || "（未選択）";
-
-    let tweetText = "「本渡さん キャラソン人気投票」に投票しました！\n\n"
-                  + "1位： " + r1 + "\n"
-                  + "2位： " + r2 + "\n"
-                  + "3位： " + r3 + "\n"
-                  + "4位： " + r4 + "\n"
-                  + "5位： " + r5 + "\n\n"
-                  + "https://kamimu3.github.io/hondo-kaede-vote/";
-
-    const tweetUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText);
-    document.getElementById('tweetBtn').href = tweetUrl;
-}
-</script>
-
-</body>
-</html>
+// 全175曲のマスタデータ配列
+const songList = [
+    "ソメラ色デイズ (不思議なソメラちゃん)",
+    "プリズムMAX～平成維新フルHDリマスター版～ (不思議なソメラちゃん)",
+    "twin flower (不思議なソメラちゃん)",
+    "こころだいすきここったま！ (かみさまみならい ヒミツのここたま)",
+    "Candy Star☆ミ (アイドルコネクト-AsteriskLive-)",
+    "Flower Tune (アイドルコネクト-AsteriskLive-
