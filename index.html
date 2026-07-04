@@ -76,21 +76,21 @@
             min-height: 80px;
         }
         
-        /* 自作ドロップダウン検索リスト（スマホでのスクロールを滑らかにする設定） */
+        /* 自作ドロップダウン検索リスト */
         .custom-select-box {
             position: absolute;
             left: 15px;
             right: 15px;
-            max-height: 240px;
+            max-height: 220px;
             overflow-y: scroll;
             background: white;
-            border: 1px solid #3182ce;
+            border: 2px solid #3182ce;
             border-top: none;
             border-radius: 0 0 6px 6px;
             z-index: 9999;
             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
             display: none;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch; /* スマホの慣性スクロール用 */
         }
         .custom-select-item {
             padding: 14px 15px;
@@ -98,13 +98,13 @@
             font-size: 15px;
             border-bottom: 1px solid #edf2f7;
             color: #2d3748;
-            line-height: 1.3;
+            line-height: 1.4;
             -webkit-tap-highlight-color: transparent;
         }
         .custom-select-item:last-child {
             border-bottom: none;
         }
-        .custom-select-item:active, .custom-select-item:hover {
+        .custom-select-item:hover, .custom-select-item:active {
             background-color: #ebf8ff;
             color: #2b6cb0;
             font-weight: bold;
@@ -171,7 +171,6 @@
     <h1>本渡楓 キャラソン人気投票</h1>
     <div class="subtitle">文字を入力すると全175曲から瞬時に検索・絞り込みができます</div>
 
-    <!-- ★投票ルール部分を指定通りに全修正 -->
     <div class="rule-box">
         <strong>【投票ルール】</strong><br>
         ・1人につき最大5曲まで選択して投票可能です。<br>
@@ -412,6 +411,7 @@ const songList = [
     "今を未来をありがとう (ゾンビランドサガ)"
 ];
 
+// 自作ドロップダウン検索システム
 document.querySelectorAll('.search-input').forEach(input => {
     const box = input.nextElementSibling;
 
@@ -423,15 +423,12 @@ document.querySelectorAll('.search-input').forEach(input => {
             item.textContent = song;
             
             const selectAction = function(e) {
-                e.preventDefault();
-                e.stopPropagation();
                 input.value = song;
                 box.style.display = 'none';
             };
             
-            item.addEventListener('mousedown', selectAction);
-            item.addEventListener('touchstart', selectAction);
-            box.appendChild(item);
+            item.addEventListener('click', selectAction);
+            box.appendChild(item); // ★この消えていた超重要パーツを完全復元
         });
     }
 
@@ -473,7 +470,6 @@ document.getElementById('voteForm').addEventListener('keydown', function(e) {
     }
 });
 
-// 送信制御ロジック
 function handleFormSubmit(event) {
     event.preventDefault();
 
