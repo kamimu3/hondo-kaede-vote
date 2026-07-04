@@ -2,15 +2,16 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>本渡楓 キャラソン人気投票</title>
     <style>
         body {
-            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f7f9fc;
             color: #2c3e50;
             padding: 20px;
             margin: 0;
+            -webkit-text-size-adjust: 100%;
         }
         .container {
             max-width: 650px;
@@ -39,6 +40,7 @@
             margin-bottom: 25px;
             border-radius: 0 4px 4px 0;
             font-size: 14px;
+            line-height: 1.6;
         }
         .vote-group {
             margin-bottom: 20px;
@@ -55,13 +57,14 @@
         }
         input[type="text"], textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #cbd5e0;
             border-radius: 4px;
             box-sizing: border-box;
-            font-size: 15px;
+            font-size: 16px;
             font-family: inherit;
             background-color: white;
+            -webkit-appearance: none;
         }
         input[type="text"]:focus, textarea:focus {
             outline: none;
@@ -73,15 +76,15 @@
             min-height: 80px;
         }
         
-        /* 自作ドロップダウン検索リスト */
+        /* 自作ドロップダウン検索リスト（スマホでのスクロールを滑らかにする設定） */
         .custom-select-box {
             position: absolute;
             left: 15px;
             right: 15px;
-            max-height: 220px;
-            overflow-y: auto;
+            max-height: 240px;
+            overflow-y: scroll;
             background: white;
-            border: 1px solid #cbd5e0;
+            border: 1px solid #3182ce;
             border-top: none;
             border-radius: 0 0 6px 6px;
             z-index: 9999;
@@ -90,11 +93,12 @@
             -webkit-overflow-scrolling: touch;
         }
         .custom-select-item {
-            padding: 12px 15px;
+            padding: 14px 15px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             border-bottom: 1px solid #edf2f7;
-            color: #4a5568;
+            color: #2d3748;
+            line-height: 1.3;
             -webkit-tap-highlight-color: transparent;
         }
         .custom-select-item:last-child {
@@ -109,7 +113,7 @@
         .submit-btn {
             display: block;
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background-color: #3182ce;
             color: white;
             border: none;
@@ -119,7 +123,7 @@
             cursor: pointer;
             margin-top: 25px;
             transition: background 0.2s;
-            line-height: 1.5; /* 改行時の行間をきれいに保つ */
+            line-height: 1.5;
         }
         .submit-btn:hover {
             background-color: #2b6cb0;
@@ -167,9 +171,14 @@
     <h1>本渡楓 キャラソン人気投票</h1>
     <div class="subtitle">文字を入力すると全175曲から瞬時に検索・絞り込みができます</div>
 
+    <!-- ★投票ルール部分を指定通りに全修正 -->
     <div class="rule-box">
         <strong>【投票ルール】</strong><br>
-        お名前と1位は必須項目です。2位〜5位、ひとことは空欄のまま送信も可能です。
+        ・1人につき最大5曲まで選択して投票可能です。<br>
+        ・1位＝5pt / 2位＝4pt / 3位＝3pt / 4位＝2pt / 5位＝1pt として集計されます。<br><br>
+        ※一曲のみの投票も可能です<br>
+        ※7/31日まで<br>
+        ※「ゾンビランドサガ ゆめぎんがパラダイス フランシュシュ The Best Paradise」収録曲までが対象です
     </div>
 
     <form id="voteForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfOW49boR8IQbAVzGRezkhj2Jo9wmUSKMcqW3ntGR9miLY0Qw/formResponse" method="POST" onsubmit="handleFormSubmit(event)">
@@ -464,6 +473,7 @@ document.getElementById('voteForm').addEventListener('keydown', function(e) {
     }
 });
 
+// 送信制御ロジック
 function handleFormSubmit(event) {
     event.preventDefault();
 
